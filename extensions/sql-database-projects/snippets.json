@@ -1,0 +1,21 @@
+{
+	"SQL Input Binding": {
+		"prefix": "azureFunctionSqlInputBinding",
+		"body": [
+			"[Sql(\"select * from [dbo].[artists]\"",
+			"CommandType = System.Data.CommandType.Text,",
+			"ConnectionStringSetting = \"SqlConnectionString\")]",
+			"IEnumerable<Object> result,"
+		],
+		"description": "SQL input binding for an Azure Function"
+	},
+	"SQL Output Binding": {
+		"prefix": "azureFunctionSqlOutputBinding",
+		"body": [
+			"[Sql(\"dbo.artists\",",
+			"ConnectionStringSetting = \"SqlConnectionString\")]",
+			"out Object output,"
+		],
+		"description": "SQL output binding for an Azure Function"
+	}
+}
