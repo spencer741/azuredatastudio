@@ -49,7 +49,7 @@
     ],
     "snippets": [
       {
-        "language": "csharp",
+        "language": "plaintext",
         "path": "./snippets.json"
       }
     ],
