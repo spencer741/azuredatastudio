@@ -739,6 +739,27 @@ export class ProjectsController {
 		return result;
 	}
 
+	public async generateAzureFunctionBindingSnippet(): Promise<void> {
+		const items: vscode.QuickPickItem[] = [];
+
+		items.push({ label: 'SQL input binding' });
+		items.push({ label: 'SQL output binding' });
+
+		const snippet = (await vscode.window.showQuickPick(items, {
+			canPickMany: false,
+			placeHolder: 'Select sql binding to copy to clipboard'
+		}))?.label;
+
+		console.error('selected ' + snippet);
+		if (snippet === 'SQL input binding') {
+			vscode.env.clipboard.writeText('[Sql(\"select * from [dbo].[table1]\" /nCommandType = System.Data.CommandType.Text,/nConnectionStringSetting = \"SqlConnectionString\")] /nIEnumerable<Object> result');
+		} else {
+			vscode.env.clipboard.writeText('[Sql(\"dbo.table1\", \nConnectionStringSetting = \"SqlConnectionString\")] \nout Object output');
+		}
+
+		vscode.window.showInformationMessage('Azure function SQL binding copied to clipboard');
+	}
+
 	//#region Helper methods
 
 	public getPublishDialog(project: Project): PublishDatabaseDialog {

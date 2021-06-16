@@ -153,6 +153,11 @@
         "command": "sqlDatabaseProjects.changeTargetPlatform",
         "title": "%sqlDatabaseProjects.changeTargetPlatform%",
         "category": "%sqlDatabaseProjects.displayName%"
+      },
+      {
+        "command": "sqlDatabaseProjects.generateAzureFunctionSnippet",
+        "title": "%sqlDatabaseProjects.generateAzureFunctionSnippet%",
+        "category": "%sqlDatabaseProjects.displayName%"
       }
     ],
     "menus": {
@@ -246,6 +251,9 @@
         {
           "command": "sqlDatabaseProjects.changeTargetPlatform",
           "when": "false"
+        },
+        {
+          "command": "sqlDatabaseProjects.generateAzureFunctionSnippet"
         }
       ],
       "view/item/context": [
