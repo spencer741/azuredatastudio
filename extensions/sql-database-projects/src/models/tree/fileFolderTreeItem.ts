@@ -71,6 +71,15 @@ export class FileNode extends BaseProjectTreeItem {
 	}
 }
 
+export class TableFileNode extends FileNode {
+	public get treeItem(): vscode.TreeItem {
+		const treeItem = super.treeItem;
+		treeItem.contextValue = DatabaseProjectItemType.table;
+
+		return treeItem;
+	}
+}
+
 export class ExternalStreamingJobFileNode extends FileNode {
 	public get treeItem(): vscode.TreeItem {
 		const treeItem = super.treeItem;

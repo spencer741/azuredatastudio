@@ -253,7 +253,8 @@
           "when": "false"
         },
         {
-          "command": "sqlDatabaseProjects.generateAzureFunctionSnippet"
+          "command": "sqlDatabaseProjects.generateAzureFunctionSnippet",
+          "when": "false"
         }
       ],
       "view/item/context": [
@@ -326,6 +327,11 @@
           "command": "sqlDatabaseProjects.validateExternalStreamingJob",
           "when": "view =~ /^(sqlDatabaseProjectsView|dataworkspace.views.main)$/ && viewItem == databaseProject.itemType.file.externalStreamingJob",
           "group": "5_dbProjects_streamingJob"
+        },
+        {
+          "command": "sqlDatabaseProjects.generateAzureFunctionSnippet",
+          "when": "view =~ /^(sqlDatabaseProjectsView|dataworkspace.views.main)$/ && viewItem == databaseProject.itemType.file.table",
+          "group": "6_dbProjects_azureFunctions"
         },
         {
           "command": "sqlDatabaseProjects.exclude",

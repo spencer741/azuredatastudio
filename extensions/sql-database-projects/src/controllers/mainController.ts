@@ -68,7 +68,7 @@ export default class MainController implements vscode.Disposable {
 		vscode.commands.registerCommand('sqlDatabaseProjects.exclude', async (node: WorkspaceTreeItem) => { await this.projectsController.exclude(node); });
 		vscode.commands.registerCommand('sqlDatabaseProjects.changeTargetPlatform', async (node: WorkspaceTreeItem) => { await this.projectsController.changeTargetPlatform(node); });
 		vscode.commands.registerCommand('sqlDatabaseProjects.validateExternalStreamingJob', async (node: WorkspaceTreeItem) => { await this.projectsController.validateExternalStreamingJob(node); });
-		vscode.commands.registerCommand('sqlDatabaseProjects.generateAzureFunctionSnippet', async () => { await this.projectsController.generateAzureFunctionBindingSnippet(); });
+		vscode.commands.registerCommand('sqlDatabaseProjects.generateAzureFunctionSnippet', async (node: WorkspaceTreeItem) => { await this.projectsController.generateAzureFunctionBindingSnippet(node); });
 
 		IconPathHelper.setExtensionContext(this.extensionContext);
 

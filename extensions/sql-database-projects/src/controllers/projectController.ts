@@ -739,25 +739,35 @@ export class ProjectsController {
 		return result;
 	}
 
-	public async generateAzureFunctionBindingSnippet(): Promise<void> {
-		const items: vscode.QuickPickItem[] = [];
+	public async generateAzureFunctionBindingSnippet(node?: dataworkspace.WorkspaceTreeItem): Promise<void> {
+		if (node) {
+			const project: Project = this.getProjectFromContext(node);
 
-		items.push({ label: 'SQL input binding' });
-		items.push({ label: 'SQL output binding' });
+			// TODO: use parser to get table name from scipt like external job validation does in STS https://github.com/microsoft/sqltoolsservice/blob/main/src/Microsoft.SqlTools.ServiceLayer/DacFx/ValidateStreamingJobOperation.cs
+			const tableDefinition: string = (await fs.readFile(node.element.fileSystemUri.fsPath)).toString();
+			const fileName: string = path.parse(node.element.fileSystemUri.fsPath).name;
 
-		const snippet = (await vscode.window.showQuickPick(items, {
-			canPickMany: false,
-			placeHolder: 'Select sql binding to copy to clipboard'
-		}))?.label;
+			const items: vscode.QuickPickItem[] = [];
 
-		console.error('selected ' + snippet);
-		if (snippet === 'SQL input binding') {
-			vscode.env.clipboard.writeText('[Sql(\"select * from [dbo].[table1]\" /nCommandType = System.Data.CommandType.Text,/nConnectionStringSetting = \"SqlConnectionString\")] /nIEnumerable<Object> result');
+			items.push({ label: 'SQL input binding' });
+			items.push({ label: 'SQL output binding' });
+
+			const snippet = (await vscode.window.showQuickPick(items, {
+				canPickMany: false,
+				placeHolder: 'Select sql binding to copy to clipboard'
+			}))?.label;
+
+			console.error('selected ' + snippet);
+			if (snippet === 'SQL input binding') {
+				vscode.env.clipboard.writeText(`[Sql(\"select * from [dbo].[${fileName}]\",\nCommandType = System.Data.CommandType.Text,\nConnectionStringSetting = \"SqlConnectionString\")] IEnumerable<Object> result`);
+			} else {
+				vscode.env.clipboard.writeText(`[Sql(\"dbo.${fileName}\",\nConnectionStringSetting = \"SqlConnectionString\")]\nout Object output`);
+			}
+
+			vscode.window.showInformationMessage('Azure function SQL binding copied to clipboard. Paste in appropriate Azure function definition');
 		} else {
-			vscode.env.clipboard.writeText('[Sql(\"dbo.table1\", \nConnectionStringSetting = \"SqlConnectionString\")] \nout Object output');
-		}
 
-		vscode.window.showInformationMessage('Azure function SQL binding copied to clipboard');
+		}
 	}
 
 	//#region Helper methods

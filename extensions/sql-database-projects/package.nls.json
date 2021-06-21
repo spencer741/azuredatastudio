@@ -30,7 +30,7 @@
 	"sqlDatabaseProjects.openContainingFolder": "Open Containing Folder",
 	"sqlDatabaseProjects.editProjectFile": "Edit .sqlproj File",
 	"sqlDatabaseProjects.changeTargetPlatform": "Change Target Platform",
-	"sqlDatabaseProjects.generateAzureFunctionSnippet": "Generate Azure Function SQL Binding snippet",
+	"sqlDatabaseProjects.generateAzureFunctionSnippet": "Copy Azure Function SQL Binding snippet",
 
 	"sqlDatabaseProjects.Settings": "Database Projects",
 	"sqlDatabaseProjects.netCoreInstallLocation": "Full path to .NET Core SDK on the machine.",

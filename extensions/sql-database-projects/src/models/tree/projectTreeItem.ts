@@ -11,7 +11,7 @@ import * as fileTree from './fileFolderTreeItem';
 import { Project, EntryType, FileProjectEntry } from '../project';
 import * as utils from '../../common/utils';
 import { DatabaseReferencesTreeItem } from './databaseReferencesTreeItem';
-import { DatabaseProjectItemType, RelativeOuterPath, ExternalStreamingJob, sqlprojExtension } from '../../common/constants';
+import { DatabaseProjectItemType, RelativeOuterPath, ExternalStreamingJob, sqlprojExtension, tableFriendlyName } from '../../common/constants';
 import { IconPathHelper } from '../../common/iconHelper';
 
 /**
@@ -79,6 +79,8 @@ export class ProjectRootTreeItem extends BaseProjectTreeItem {
 				case EntryType.File:
 					if (entry.sqlObjectType === ExternalStreamingJob) {
 						newNode = new fileTree.ExternalStreamingJobFileNode(entry.fsUri, parentNode);
+					} else if (entry.sqlObjectType === tableFriendlyName) {
+						newNode = new fileTree.TableFileNode(entry.fsUri, parentNode);
 					}
 					else {
 						newNode = new fileTree.FileNode(entry.fsUri, parentNode);

@@ -402,6 +402,9 @@ export class Project implements ISqlProject {
 		if (itemType === templates.externalStreamingJob) {
 			fileEntry.sqlObjectType = constants.ExternalStreamingJob;
 			attributes.set(constants.Type, constants.ExternalStreamingJob);
+		} else if (itemType === templates.table) {
+			fileEntry.sqlObjectType = constants.tableFriendlyName;
+			attributes.set(constants.Type, constants.tableFriendlyName);
 		}
 
 		await this.addToProjFile(fileEntry, xmlTag, attributes);
