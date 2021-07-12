@@ -34,8 +34,8 @@ import { CreateProjectFromDatabaseDialog } from '../dialogs/createProjectFromDat
 import { TelemetryActions, TelemetryReporter, TelemetryViews } from '../common/telemetry';
 import { IconPathHelper } from '../common/iconHelper';
 import { DashboardData, PublishData, Status } from '../models/dashboardData/dashboardData';
-import { launchPublishDatabaseQuickpick } from '../dialogs/publishDatabaseQuickpick';
 import { SqlTargetPlatform } from 'sqldbproj';
+import { launchPublishDatabaseQuickpick } from '../dialogs/publishDatabaseQuickpick';
 
 const maxTableLength = 10;
 
