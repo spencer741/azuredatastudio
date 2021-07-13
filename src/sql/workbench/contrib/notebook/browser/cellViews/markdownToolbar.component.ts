@@ -243,7 +243,8 @@ export class MarkdownToolbarComponent extends AngularDisposable {
 				const isAnchorLink = linkUrl.startsWith('#');
 				if (!isAnchorLink) {
 					const isFile = URI.parse(linkUrl).scheme === 'file';
-					if (isFile && !path.isAbsolute(linkUrl)) {
+					const isUntitled = this.cellModel?.notebookModel?.notebookUri.scheme === 'untitled' ?? false;
+					if (isFile && !path.isAbsolute(linkUrl) && !isUntitled) {
 						const notebookDirName = path.dirname(this.cellModel?.notebookModel?.notebookUri.fsPath);
 						const relativePath = (linkUrl).replace(/\\/g, path.posix.sep);
 						linkUrl = path.resolve(notebookDirName, relativePath);
@@ -357,6 +358,9 @@ export class MarkdownToolbarComponent extends AngularDisposable {
 			}
 			const parentNode = anchorNode.parentNode as HTMLAnchorElement;
 			if (parentNode?.protocol === 'file:') {
+				if (this.cellModel?.notebookModel?.notebookUri.scheme === 'untitled') {
+					return parentNode.attributes['href']?.nodeValue;
+				}
 				// Pathname starts with / per https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/pathname so trim it off
 				return parentNode.pathname?.slice(1) || '';
 			} else {

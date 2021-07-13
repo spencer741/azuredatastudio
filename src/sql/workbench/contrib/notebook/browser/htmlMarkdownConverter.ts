@@ -132,9 +132,9 @@ export class HTMLMarkdownConverter {
 		this.turndownService.addRule('a', {
 			filter: 'a',
 			replacement: (content, node) => {
-				let href = node.href;
+				let href = node.attributes.href?.nodeValue;
 				let notebookLink: URI | undefined;
-				const isAnchorLinkInFile = (node.attributes.href?.nodeValue.startsWith('#') || href.includes('#')) && href.startsWith('file://');
+				const isAnchorLinkInFile = href.includes('#') && node.protocol === 'file:';
 				if (isAnchorLinkInFile) {
 					notebookLink = getUriAnchorLink(node, this.notebookUri);
 				} else {
@@ -143,14 +143,16 @@ export class HTMLMarkdownConverter {
 					notebookLink = href ? URI.parse(href) : URI.file(node.title);
 				}
 				const notebookFolder = this.notebookUri ? path.join(path.dirname(this.notebookUri.fsPath), path.sep) : '';
-				if (notebookLink.fsPath !== this.notebookUri.fsPath) {
-					let relativePath = findPathRelativeToContent(notebookFolder, notebookLink);
-					if (relativePath) {
-						return `[${node.innerText}](${relativePath})`;
+				if (this.notebookUri.scheme !== 'untitled') {
+					if (notebookLink.fsPath !== this.notebookUri.fsPath) {
+						let relativePath = findPathRelativeToContent(notebookFolder, notebookLink);
+						if (relativePath) {
+							return `[${node.innerText}](${relativePath})`;
+						}
+					} else if (notebookLink?.fragment) {
+						// if the anchor link is to a section in the same notebook then just add the fragment
+						return `[${content}](${notebookLink.fragment})`;
 					}
-				} else if (notebookLink?.fragment) {
-					// if the anchor link is to a section in the same notebook then just add the fragment
-					return `[${content}](${notebookLink.fragment})`;
 				}
 
 				return `[${content}](${href})`;
